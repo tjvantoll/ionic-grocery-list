@@ -27,13 +27,20 @@
 						$scope.$apply();
 					}
 				});
-			}
+			};
+			$scope.onShare = function() {
+				window.plugins.socialsharing.share(
+					$scope.groceries.join( ", " ) );
+			};
 		});
 	</script>
 </head>
 <body ng-controller="GroceryController">
 	<ion-header-bar class="bar-positive">
 		<h1 class="title">Grocery List</h1>
+		<div class="buttons">
+			<button class="button" ng-click="onShare()">Share</button>
+		</div>
 	</ion-header-bar>
 	<ion-content>
 		<ion-list show-delete="true">
