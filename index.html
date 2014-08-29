@@ -1,0 +1,47 @@
+<html ng-app="grocery-app">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+	<title>AppBuilder + Ionic = <3</title>
+
+	<script src="cordova.js"></script>
+	<link href="http://code.ionicframework.com/1.0.0-beta.11/css/ionic.css" rel="stylesheet">
+	<script src="http://code.ionicframework.com/1.0.0-beta.11/js/ionic.bundle.js">
+	</script>
+	<script>
+		angular.module( "grocery-app", [ "ionic" ])
+			.controller( "GroceryController", function( $scope ) {
+			$scope.groceries = [
+				"Bananas", "Apples", "Oranges", "Milk", "Eggs", "Bread",
+				"Cereal", "Beef", "Napkins", "Cheese", "Peanut Butter"
+			];
+			$scope.removeGrocery = function( grocery ) {
+				$scope.groceries.splice(
+					$scope.groceries.indexOf( grocery ), 1 );
+			};
+			$scope.onItemDelete = function( grocery ) {
+				var message = "Are you sure you want to delete " + grocery + "?";
+				navigator.notification.confirm( message, function( index ) {
+					if ( index === 1 ) {
+						$scope.removeGrocery( grocery );
+						$scope.$apply();
+					}
+				});
+			}
+		});
+	</script>
+</head>
+<body ng-controller="GroceryController">
+	<ion-header-bar class="bar-positive">
+		<h1 class="title">Grocery List</h1>
+	</ion-header-bar>
+	<ion-content>
+		<ion-list show-delete="true">
+			<ion-item ng-repeat="grocery in groceries" item="grocery">
+				<ion-delete-button class="ion-minus-circled" ng-click="onItemDelete(grocery)"></ion-delete-button>
+				{{ grocery }}
+			</ion-item>
+		</ion-list>
+	</ion-content>
+</body>
+</html>
